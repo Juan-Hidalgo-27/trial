@@ -311,10 +311,9 @@ def run(parameters):
 
     if verbose:
         print(f"Reductions: {reductions_list}")
-
-    roi_stem = os.path.join(os.getcwd(), "atlases", "2mm_parcellations")
-
-    # Check if roi_stem exists, try alternative paths
+    roi_stem = os.path.join(
+        os.getcwd(), "atlases", "2mm_parcellations"
+    )  # Check if roi_stem exists, try alternative paths
     if not os.path.exists(roi_stem):
         alt_paths = [
             os.path.join(os.getcwd(), "../../atlases", "2mm_parcellations"),
@@ -324,6 +323,13 @@ def run(parameters):
             if os.path.exists(alt):
                 roi_stem = alt
                 break
+    print(f"[deficit_modelling] ROI stem resolved to: {roi_stem}")
+    print(f"[deficit_modelling] ROI stem exists: {os.path.exists(roi_stem)}")
+
+    if not os.path.exists(roi_stem):
+        print(
+            "[deficit_modelling] WARNING: No ROI stem path found; deficits will not be computed."
+        )
 
     if verbose:
         print(f"ROI stem path: {roi_stem}")

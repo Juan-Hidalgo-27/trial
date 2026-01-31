@@ -831,7 +831,12 @@ class ground_truth_preprocess:
 
 
 def generate_ground_truth(
-    lesionpath, discopath, simpleatlases=None, disco_thresh=0.5, n_samples=None, verbose=False
+    lesionpath,
+    discopath,
+    simpleatlases=None,
+    disco_thresh=0.5,
+    n_samples=None,
+    verbose=False,
 ):
     """
     Generate ground truth dataframe with lesion/disconnectome metadata.
@@ -1250,4 +1255,3 @@ def run(parameters):
 if __name__ == "__main__":
     args = command_line_options()
     run(args)
-
