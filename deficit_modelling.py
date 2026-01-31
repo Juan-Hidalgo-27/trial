@@ -204,7 +204,7 @@ def harmonize_columns(
     other_latent_dfs = {}
     for dim in latent_list[1:]:
         df = get_file(
-            other_dfs_path, f"{train_or_test}_{kf_count}_['{input_type}']_dim_{dim}"
+            other_dfs_path, f"{train_or_test}_{kf_count}_dim_{dim}_{input_type}"
         )
         if df is not None:
             other_latent_dfs[dim] = df
@@ -379,7 +379,7 @@ def run(parameters):
 
                     # Load train data
                     ground_truth_train = get_file(
-                        path, f"train_{kf_count}_dim_{latent_list[0]}_['{input_type}']"
+                        path, f"train_{kf_count}_dim_{latent_list[0]}_{input_type}"
                     )
 
                     if ground_truth_train is None:
@@ -476,20 +476,60 @@ def run(parameters):
 
 
 def command_line_options():
-    parser = argparse.ArgumentParser(description="Deficit Modelling for Stroke Lesion Analysis")
+    parser = argparse.ArgumentParser(
+        description="Deficit Modelling for Stroke Lesion Analysis"
+    )
     parser.add_argument("--path", type=str, default="", help="Base path for results")
-    parser.add_argument("--lesionpath", type=str, default="", help="Path to lesion nii files")
-    parser.add_argument("--discopath", type=str, default="", help="Path to disconnectome nii files")
+    parser.add_argument(
+        "--lesionpath", type=str, default="", help="Path to lesion nii files"
+    )
+    parser.add_argument(
+        "--discopath", type=str, default="", help="Path to disconnectome nii files"
+    )
 
-    parser.add_argument("--latent_list", type=int, nargs='+', default=[2, 4, 8, 16, 32, 64, 128, 256], help="Number of folds for cross-validation")
-    parser.add_argument("--kfold_deficits", type=int, default=10, help="K-fold crossval")
-    parser.add_argument("--roi_threshs", type=float, nargs='+', default=[0.05], help="Threshold for susceptibility modelling")
-    parser.add_argument("--names", type=str, nargs='+', default=["genetics", "receptor"], help="Ground truth rationales")
+    parser.add_argument(
+        "--latent_list",
+        type=int,
+        nargs="+",
+        default=[2, 4, 8, 16, 32, 64, 128, 256],
+        help="Number of folds for cross-validation",
+    )
+    parser.add_argument(
+        "--kfold_deficits", type=int, default=10, help="K-fold crossval"
+    )
+    parser.add_argument(
+        "--roi_threshs",
+        type=float,
+        nargs="+",
+        default=[0.05],
+        help="Threshold for susceptibility modelling",
+    )
+    parser.add_argument(
+        "--names",
+        type=str,
+        nargs="+",
+        default=["genetics", "receptor"],
+        help="Ground truth rationales",
+    )
 
-    parser.add_argument("--run_ae", type=str2bool, default=False, help="Run autoencoder")
-    parser.add_argument("--run_vae", type=str2bool, default=False, help="Run variational autoencoder")
-    parser.add_argument("--run_nmf", type=str2bool, default=True, help="Run non-negative matrix factorisation")
-    parser.add_argument("--run_pca", type=str2bool, default=True, help="Run principal component analysis")
+    parser.add_argument(
+        "--run_ae", type=str2bool, default=False, help="Run autoencoder"
+    )
+    parser.add_argument(
+        "--run_vae", type=str2bool, default=False, help="Run variational autoencoder"
+    )
+    parser.add_argument(
+        "--run_nmf",
+        type=str2bool,
+        default=True,
+        help="Run non-negative matrix factorisation",
+    )
+    parser.add_argument(
+        "--run_pca",
+        type=str2bool,
+        default=True,
+        help="Run principal component analysis",
+    )
 
     # DEBUG parameters
     parser.add_argument(
